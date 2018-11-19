@@ -4,10 +4,12 @@ namespace erlang rate
 include "base.thrift"
 
 typedef i64 EventID
-typedef base.Rational RateValue
+typedef base.Rational ExchangeRate
 
 /** ISO 4217 */
 typedef string CurrencySymbolicCode
+
+typedef string SourceID
 
 struct EventRange {
     1: optional EventID after
@@ -16,29 +18,35 @@ struct EventRange {
 
 exception NoLastEvent {}
 
+union ExchangeRateStatus {
+    1: ExchangeRatePending   pending
+    2: ExchangeRateCompleted completed
+}
+
+struct ExchangeRatePending {}
+struct ExchangeRateCompleted {
+    1: required list<Quote> qoutes
+}
+
 struct Currency {
     1: required CurrencySymbolicCode symbolic_code
     2: required i16 exponent
 }
 
 union Change {
-    1: ExchangeRateData exchange_rate_data
+    1: ExchangeRateData   created
+    2: ExchangeRateStatus status_changed
 }
 
 struct ExchangeRateData {
-    1: required base.Date date
-    2: required Currency source_currency
-    3: required Source source
-    4: list<Rate> rates
+    1: required base.TimestampInterval interval
+    2: required SourceID source
 }
 
-struct Rate {
-    1: required Currency currency
-    2: required RateValue rate_value
-}
-
-enum Source {
-    cbr
+struct Quote {
+    1: required Currency source
+    2: required Currency target
+    3: required ExchangeRate exchange_rate
 }
 
 struct Event {

@@ -10,12 +10,12 @@ namespace erlang base
 typedef string Timestamp
 
 /**
-* Дата согласно ISO 8601.
-*
-* Строка должна содержать дату в следующем формате:
-* `2016-03-22`
-*/
-typedef string Date
+ * Временной интервал
+ */
+struct TimestampInterval {
+    1: required Timestamp lower_bound_inclusive
+    2: required Timestamp upper_bound_exclusive
+}
 
 /** Рациональное число. */
 struct Rational {

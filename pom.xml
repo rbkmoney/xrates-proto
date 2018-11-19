@@ -12,7 +12,7 @@
 
     <groupId>com.rbkmoney</groupId>
     <artifactId>xrates-proto</artifactId>
-    <version>SNAPSHOT</version>
+    <version>1.2-16d00d4</version>
     <packaging>jar</packaging>
 
     <name>x-rate proto</name>
