@@ -18,16 +18,6 @@ struct EventRange {
 
 exception NoLastEvent {}
 
-union ExchangeRateStatus {
-    1: ExchangeRatePending   pending
-    2: ExchangeRateCompleted completed
-}
-
-struct ExchangeRatePending {}
-struct ExchangeRateCompleted {
-    1: required list<Quote> qoutes
-}
-
 struct Currency {
     1: required CurrencySymbolicCode symbolic_code
     2: required i16 exponent
@@ -35,12 +25,12 @@ struct Currency {
 
 union Change {
     1: ExchangeRateData   created
-    2: ExchangeRateStatus status_changed
 }
 
 struct ExchangeRateData {
     1: required base.TimestampInterval interval
     2: required SourceID source
+    3: required list<Quote> qoutes
 }
 
 struct Quote {
