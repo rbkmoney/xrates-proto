@@ -24,17 +24,21 @@ struct Currency {
 }
 
 union Change {
-    1: ExchangeRateData created
+    1: ExchangeRateCreated created
+}
+
+struct ExchangeRateCreated {
+    1: required ExchangeRateData exchangeRateData
 }
 
 /**
 *  Информация по курсам валют, где:
 *  interval - интервал времени в рамках которого действуют заданные курсы
-*  qoutes - список курсов валют
+*  quotes - список курсов валют
 */
 struct ExchangeRateData {
     1: required base.TimestampInterval interval
-    2: required list<Quote> qoutes
+    2: required list<Quote> quotes
 }
 
 /**
@@ -52,7 +56,7 @@ struct ExchangeRateData {
 */
 struct Quote {
     1: required Currency source
-    2: required Currency target
+    2: required Currency destination
     3: required ExchangeRate exchange_rate
 }
 
