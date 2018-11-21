@@ -24,15 +24,32 @@ struct Currency {
 }
 
 union Change {
-    1: ExchangeRateData   created
+    1: ExchangeRateData created
 }
 
+/**
+*  Информация по курсам валют, где:
+*  interval - интервал времени в рамках которого действуют заданные курсы
+*  qoutes - список курсов валют
+*/
 struct ExchangeRateData {
     1: required base.TimestampInterval interval
-    2: required SourceID source
-    3: required list<Quote> qoutes
+    2: required list<Quote> qoutes
 }
 
+/**
+* Курс валют, где:
+* source - валюта, из которой конвертируют
+* destination - валюта, в которую конвертируют
+* exchange_rate - рациональное число конверсии в учете минорных единиц
+*
+* Пример:
+* Предположим, что мы конвертируем CLF в RUB по курсу 2640.4546 рублей.
+* В итоге source валюта здесь это CLF с экспонентой 4, destination валюта это RUB с экспонентой 2.
+* Получается, что одна минорная единица CLF равна 0.26404546 рубля, или 26.404546 копеек (минорная единица рубля).
+* В результате в рациональном представлении это будет равно "26404546 / 1000000" или "13202273 / 500000".
+*
+*/
 struct Quote {
     1: required Currency source
     2: required Currency target
@@ -44,10 +61,10 @@ struct Event {
 }
 
 struct SinkEvent {
-    1: required EventID   id
+    1: required EventID        id
     2: required base.Timestamp created_at
-    3: required string    source
-    4: required Event     payload
+    3: required SourceID       source
+    4: required Event          payload
 }
 
 service EventSink {
