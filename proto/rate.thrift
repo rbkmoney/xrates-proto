@@ -28,7 +28,7 @@ union Change {
 }
 
 struct ExchangeRateCreated {
-    1: required ExchangeRateData exchangeRateData
+    1: required ExchangeRateData exchange_rate_data
 }
 
 /**
