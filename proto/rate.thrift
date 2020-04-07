@@ -98,7 +98,7 @@ exception QuoteNotFound {}
 
 service Rates {
 
-    base.Rational Convert(SourceID source, ConversionRequest request)
+    base.Rational GetConvertedAmount(SourceID source, ConversionRequest request)
         throws (CurrencyNotFound ex1, QuoteNotFound ex2)
 
 }
