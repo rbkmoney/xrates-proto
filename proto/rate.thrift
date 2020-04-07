@@ -77,6 +77,32 @@ struct SinkEvent {
     5: required SequenceID     sequence_id
 }
 
+/**
+* Запрос на конвертацию, где:
+* source - валюта, из которой конвертируют
+* destination - валюта, в которую конвертируют
+* amount - сумма в валюте source в минорных денежных единицах
+* payment_system - платежная система, в рамках которой установлен курс
+* datetime - дата и время, за которое нужно провести конвертацию
+*/
+struct ConversionRequest {
+    1: required Currency source
+    2: required Currency destination
+    3: required base.Amount amount
+    4: optional domain.BankCardPaymentSystem payment_system
+    5: optional base.Timestamp datetime
+}
+
+exception CurrencyNotFound {}
+exception QuoteNotFound {}
+
+service Rates {
+
+    base.Rational Convert(SourceID source, ConversionRequest request)
+        throws (CurrencyNotFound ex1, QuoteNotFound ex2)
+
+}
+
 service EventSink {
 
     list<SinkEvent> GetEvents (1: EventRange range)
