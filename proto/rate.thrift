@@ -62,7 +62,6 @@ struct Quote {
     1: required Currency source
     2: required Currency destination
     3: required ExchangeRate exchange_rate
-    4: optional domain.BankCardPaymentSystem payment_system
 }
 
 struct Event {
@@ -89,8 +88,7 @@ struct ConversionRequest {
     1: required CurrencySymbolicCode source
     2: required CurrencySymbolicCode destination
     3: required base.Amount amount
-    4: optional domain.BankCardPaymentSystem payment_system
-    5: optional base.Timestamp datetime
+    4: optional base.Timestamp datetime
 }
 
 exception CurrencyNotFound {}
