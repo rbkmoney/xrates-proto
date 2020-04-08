@@ -86,8 +86,8 @@ struct SinkEvent {
 * datetime - дата и время, за которое нужно провести конвертацию
 */
 struct ConversionRequest {
-    1: required Currency source
-    2: required Currency destination
+    1: required CurrencySymbolicCode source
+    2: required CurrencySymbolicCode destination
     3: required base.Amount amount
     4: optional domain.BankCardPaymentSystem payment_system
     5: optional base.Timestamp datetime
@@ -98,8 +98,11 @@ exception QuoteNotFound {}
 
 service Rates {
 
+ExchangeRateData GetExchangeRates(1: SourceID source, 2: base.Timestamp datetime)
+        throws (QuoteNotFound ex1)
+
     base.Rational GetConvertedAmount(SourceID source, ConversionRequest request)
-        throws (CurrencyNotFound ex1, QuoteNotFound ex2)
+        throws (QuoteNotFound ex1, CurrencyNotFound ex2)
 
 }
 
