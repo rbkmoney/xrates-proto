@@ -5,7 +5,7 @@ include "base.thrift"
 include "domain.thrift"
 
 typedef i64 EventID
-typedef base.Rational Rate
+typedef base.Rational ExchangeRate
 
 /** ISO 4217 */
 typedef string CurrencySymbolicCode
@@ -58,10 +58,10 @@ struct ExchangeRateData {
 * В результате в рациональном представлении это будет равно "26404546 / 1000000" или "13202273 / 500000".
 *
 */
-struct ExchangeRate {
+struct Quote {
     1: required Currency source
     2: required Currency destination
-    3: required Rate rate
+    3: required ExchangeRate exchange_rate
     4: optional domain.BankCardPaymentSystem payment_system
 }
 
@@ -101,7 +101,7 @@ service Rates {
     ExchangeRateData GetExchangeRates(1: SourceID source, 2: base.Timestamp datetime)
         throws (ExchangeRateNotFound ex1)
 
-    Rate GetConvertedAmount(1: SourceID source, 2: ConversionRequest request)
+    base.Rational GetConvertedAmount(1: SourceID source, 2: ConversionRequest request)
         throws (ExchangeRateNotFound ex1, CurrencyNotFound ex2)
 
 }
