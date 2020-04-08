@@ -41,7 +41,7 @@ struct ExchangeRateCreated {
 */
 struct ExchangeRateData {
     1: required base.TimestampInterval interval
-    2: required list<Quote> quotes
+    2: required list<ExchangeRate> rates
 }
 
 /**
@@ -86,20 +86,23 @@ struct SinkEvent {
 * datetime - дата и время, за которое нужно провести конвертацию
 */
 struct ConversionRequest {
-    1: required Currency source
-    2: required Currency destination
+    1: required CurrencySymbolicCode source
+    2: required CurrencySymbolicCode destination
     3: required base.Amount amount
     4: optional domain.BankCardPaymentSystem payment_system
     5: optional base.Timestamp datetime
 }
 
 exception CurrencyNotFound {}
-exception QuoteNotFound {}
+exception ExchangeRateNotFound {}
 
 service Rates {
 
-    base.Rational GetConvertedAmount(SourceID source, ConversionRequest request)
-        throws (CurrencyNotFound ex1, QuoteNotFound ex2)
+    ExchangeRateData GetExchangeRates(1: SourceID source, 2: base.Timestamp datetime)
+        throws (ExchangeRateNotFound ex1)
+
+    base.Rational GetConvertedAmount(1: SourceID source, 2: ConversionRequest request)
+        throws (ExchangeRateNotFound ex1, CurrencyNotFound ex2)
 
 }
 
