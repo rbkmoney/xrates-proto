@@ -2,7 +2,6 @@ namespace java com.rbkmoney.xrates.rate
 namespace erlang rate
 
 include "base.thrift"
-include "domain.thrift"
 
 typedef i64 EventID
 typedef base.Rational ExchangeRate
